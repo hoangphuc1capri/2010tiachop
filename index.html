@@ -16,11 +16,10 @@
 </head>
     <body>
  
-			<audio autoplay="autoplay" >
+			<!-- Thêm ID="music" để JavaScript có thể điều khiển -->
+			<audio id="music" loop>
 					<source src="music/nhac.mp3" type="audio/mp3" />
             </audio> 
-
-          
 
         <div id="main">
             <div id="error">Trình duyệt của bạn không được hỗ trợ. Để được hỗ trợ liên hệ genzhoccode@gmail.com. Hoặc sử dụng (<a href="http://www.google.cn/chrome">Chrome</a>) và (<a href="http://firefox.com/download/">Firefox</a>)</div>
@@ -33,7 +32,6 @@
 						<span class="say">Cảm ơn các chị, các bạn vì đã không ngừng nỗ lực, tỉ mỉ trong từng chi tiết. Nhờ có sự cống hiến của mọi người, Tia Chớp mới có thể tỏa sáng và lan tỏa giá trị mỗi ngày.</span><br>
 						<span class="say">Chúc các “dịch giả hoa hồng” luôn xinh đẹp, hạnh phúc và rạng rỡ, không chỉ trong công việc mà còn trong cuộc sống. Mong rằng mỗi ngày đều là một ngày 20/10 tràn ngập nụ cười, niềm vui và sự yêu thương dành cho các bạn — những người phụ nữ tuyệt vời đã góp phần làm nên linh hồn của Tia Chớp! 🌸✨</span><br>
                         
-                        <!-- Ảnh bạn đã thêm -->
                         <span class="say"><span class="space"></span><img src="image/lilly.jpg" alt="Chúc mừng 20/10" style="max-width: 250px; border-radius: 10px; margin-top: 15px;"></span><br>
                         
                         <span class="say"><span class="space"><img width="100px" height="100px" src="image/tym.png" alt=""><br>
@@ -42,8 +40,6 @@
       </div>
                 </div>
                 <div id="clock-box">
-                    <!-- <span class="STYLE1"></span><font color="#FF0000">Ngày 8/3 cuối cùng ta ngồi với nhau đến nay đã....</font> -->
-<!-- <span class="STYLE1"> Time of love...</span> -->
                   <div id="clock"></div>
               </div>
                 <canvas id="canvas" width="1100" height="680"></canvas>
@@ -60,7 +56,8 @@
 		
         if (!canvas[0].getContext) {
             $("#error").show();
-            return false;        }
+            return false;
+        }
 
         var width = canvas.width();
         var height = canvas.height();        
@@ -106,6 +103,7 @@
         var seed = tree.seed;
         var foot = tree.footer;
         var hold = 1;
+        var audio = $('#music')[0]; // Lấy đối tượng audio
 
         canvas.click(function(e) {
             var offset = canvas.offset(), x, y;
@@ -113,6 +111,13 @@
             y = e.pageY - offset.top;
             if (seed.hover(x, y)) {
                 hold = 0; 
+                
+                // Phát nhạc khi người dùng click
+                audio.play().catch(function(error) {
+                    // Xử lý nếu có lỗi khi phát nhạc
+                    console.log("Audio play failed: ", error);
+                });
+                
                 canvas.unbind("click");
                 canvas.unbind("mousemove");
                 canvas.removeClass('hand');
@@ -179,23 +184,23 @@
             }
         }));
 
-        var textAnimate = eval(Jscex.compile("async", function () {
-		    var together = new Date();
-		    together.setFullYear(2024,10 , 18); 			
-		    together.setHours(0);							
-		    together.setMinutes(0);				
-		    together.setSeconds(0);					
-            together.setMilliseconds(0);
+      //   var textAnimate = eval(Jscex.compile("async", function () {
+		    // var together = new Date();
+		    // together.setFullYear(2024,10 , 18); 			
+		    // together.setHours(0);							
+		    // together.setMinutes(0);				
+		    // together.setSeconds(0);					
+      //       together.setMilliseconds(0);
             
            
 
-		    $("#code").show().typewriter();
-            $("#clock-box").fadeIn(500);
-            while (true) {
-                timeElapse(together);
-                $await(Jscex.Async.sleep(1000));
-            }
-        }));
+		    // $("#code").show().typewriter();
+      //       $("#clock-box").fadeIn(500);
+      //       while (true) {
+      //           timeElapse(together);
+      //           $await(Jscex.Async.sleep(1000));
+      //       }
+      //   }));
 
         var runAsync = eval(Jscex.compile("async", function () {
             $await(seedAnimate());
@@ -212,8 +217,6 @@
     })();
     </script>
 <div style="text-align:center;margin:50px 0; font:normal 14px/24px 'MicroSoft YaHei';">
-<!-- <p>Contact: <a href="https://www.facebook.com/dai.vudangdai" target="_blank">dangdaiptit</a></p> -->
 </div>
 </body>
 </html>
-
